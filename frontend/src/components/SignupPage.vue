@@ -10,21 +10,18 @@
             </div>
 
             <form @submit.prevent="handleSubmit" class="px-4">
-                <!-- Full Name -->
                 <div class="mb-3">
                     <input type="text" v-model="name" class="form-control form-control-lg bg-body-secondary border-0"
                         :class="{ 'is-invalid': errors.name }" placeholder="Full name" />
                     <div class="invalid-feedback">{{ errors.name }}</div>
                 </div>
 
-                <!-- Email -->
                 <div class="mb-3">
                     <input type="email" v-model="email" class="form-control form-control-lg bg-body-secondary border-0"
                         :class="{ 'is-invalid': errors.email }" placeholder="Email" />
                     <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
 
-                <!-- Password -->
                 <div class="mb-4">
                     <input type="password" v-model="password"
                         class="form-control form-control-lg bg-body-secondary border-0"
@@ -32,7 +29,6 @@
                     <div class="invalid-feedback">{{ errors.password }}</div>
                 </div>
 
-                <!-- Signup Button -->
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-primary btn-lg fw-bold text-white"
                         style="letter-spacing: 0.015em;">
@@ -40,7 +36,6 @@
                     </button>
                 </div>
 
-                <!-- Google Signup -->
                 <div class="d-grid mb-3">
                     <button type="button"
                         class="btn btn-light btn-lg fw-bold d-flex align-items-center justify-content-center gap-2 text-dark"
@@ -97,7 +92,6 @@ const handleSubmit = () => {
 
     if (Object.keys(errors.value).length === 0) {
         alert('Form submitted successfully!')
-        // You can now send data to backend API
     }
 }
 </script>

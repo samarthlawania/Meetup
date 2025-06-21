@@ -9,7 +9,6 @@
                 </h2>
 
                 <form @submit.prevent="handleSubmit" class="px-2">
-                    <!-- Email -->
                     <div class="mb-3">
                         <label class="form-label text-dark fw-medium pb-2" for="email">Email</label>
                         <input id="email" type="email" class="form-control form-control-lg bg-body-secondary border"
@@ -17,7 +16,6 @@
                         <div class="invalid-feedback">{{ errors.email }}</div>
                     </div>
 
-                    <!-- Password -->
                     <div class="mb-4">
                         <label class="form-label text-dark fw-medium pb-2" for="password">Password</label>
                         <input id="password" type="password"
@@ -27,7 +25,6 @@
                         <div class="invalid-feedback">{{ errors.password }}</div>
                     </div>
 
-                    <!-- Login Button -->
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary btn-sm fw-bold text-white py-2"
                             style="letter-spacing: 0.015em;">
@@ -35,7 +32,6 @@
                         </button>
                     </div>
 
-                    <!-- Google Sign-In -->
                     <div class="d-grid mb-3">
                         <button type="button"
                             class="btn btn-light btn-sm fw-bold d-flex align-items-center justify-content-center gap-2 py-2 text-dark"
