@@ -29,14 +29,14 @@
                     <div class="invalid-feedback">{{ errors.password }}</div>
                 </div>
 
-                <div class="d-grid mb-3">
+                <div class="d-grid mb-3" @click="signupEmailPassword">
                     <button type="submit" class="btn btn-primary btn-lg fw-bold text-white"
                         style="letter-spacing: 0.015em;">
                         Sign up
                     </button>
                 </div>
 
-                <div class="d-grid mb-3">
+                <div class="d-grid mb-3" @click="signupWithGoogle">
                     <button type="button"
                         class="btn btn-light btn-lg fw-bold d-flex align-items-center justify-content-center gap-2 text-dark"
                         style="letter-spacing: 0.015em;">
@@ -62,6 +62,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import api from '../services/apiService'
+
 
 const name = ref('')
 const email = ref('')
@@ -93,5 +95,22 @@ const handleSubmit = () => {
     if (Object.keys(errors.value).length === 0) {
         alert('Form submitted successfully!')
     }
+}
+
+const signupEmailPassword = async() => {
+    try {
+        const res = await api.post('/auth/signup', {
+          email: email.value,
+          password: password.value,
+          name:name.value,
+        });
+        console.log('Signup Success:', res.data);
+      } catch (err) {
+        console.error('Signup Failed:', err);
+      }
+}
+const signupWithGoogle = ()=> {
+  // Redirects the user to your backend's Google OAuth route
+    window.location.href = `${import.meta.env.VITE_HOST_URL}/auth/google`;
 }
 </script>

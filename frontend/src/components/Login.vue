@@ -25,9 +25,9 @@
                         <div class="invalid-feedback">{{ errors.password }}</div>
                     </div>
 
-                    <div class="d-grid mb-3">
+                    <div class="d-grid mb-3" @click="loginwithEmailPassword">
                         <button type="submit" class="btn btn-primary btn-sm fw-bold text-white py-2"
-                            style="letter-spacing: 0.015em;">
+                            style="letter-spacing: 0.015em;" >
                             Login
                         </button>
                     </div>
@@ -59,6 +59,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import api from '../services/apiService'
+
 
 const email = ref('')
 const password = ref('')
@@ -86,5 +88,17 @@ const handleSubmit = () => {
         alert('Login successful!')
         // Add your login API integration here
     }
+}
+
+const loginwithEmailPassword = async() => {
+     try {
+        const res = await api.post('/auth/login', {
+          email: email.value,
+          password: password.value,
+        });
+        console.log('Signup Success:', res.data);
+      } catch (err) {
+        console.error('Signup Failed:', err);
+      }
 }
 </script>
