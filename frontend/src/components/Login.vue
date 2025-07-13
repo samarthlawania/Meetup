@@ -1,6 +1,5 @@
 <template>
-    <div class="container-fluid d-flex flex-column px-4"
-        style="font-family: Inter, 'Noto Sans', sans-serif">
+    <div class="container-fluid d-flex flex-column px-4" style="font-family: Inter, 'Noto Sans', sans-serif">
         <main class="d-flex justify-content-center align-items-start flex-grow-1 py-5">
             <div class="w-100" style="max-width: 512px;">
                 <h2 class="fw-bold text-center pb-3 pt-4"
@@ -27,7 +26,7 @@
 
                     <div class="d-grid mb-3" @click="loginwithEmailPassword">
                         <button type="submit" class="btn btn-primary btn-sm fw-bold text-white py-2"
-                            style="letter-spacing: 0.015em;" >
+                            style="letter-spacing: 0.015em;">
                             Login
                         </button>
                     </div>
@@ -59,9 +58,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../services/apiService'
 
-
+const router = useRouter()
 const email = ref('')
 const password = ref('')
 const errors = ref<{ email?: string; password?: string }>({})
@@ -83,22 +83,24 @@ const handleSubmit = () => {
     } else if (password.value.length < 6) {
         errors.value.password = 'Password must be at least 6 characters'
     }
-
-    if (Object.keys(errors.value).length === 0) {
-        alert('Login successful!')
-        // Add your login API integration here
-    }
 }
 
-const loginwithEmailPassword = async() => {
-     try {
+const loginwithEmailPassword = async () => {
+    try {
         const res = await api.post('/auth/login', {
-          email: email.value,
-          password: password.value,
+            email: email.value,
+            password: password.value,
+            // Add other fields if needed like password
         });
-        console.log('Signup Success:', res.data);
-      } catch (err) {
-        console.error('Signup Failed:', err);
-      }
+
+        console.log('Login Success:', res.data);
+
+        // Redirect to a named route with optional params
+    router.push({ name: 'CreateNewMeeting' });
+
+    } catch (err) {
+        console.error('Login Failed:', err);
+    }
+
 }
 </script>

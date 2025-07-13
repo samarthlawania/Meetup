@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/Login.vue'
 import SignupPage from '@/components/SignupPage.vue'
 import CreeateNewMeeting from '@/components/CreeateNewMeeting.vue'
+import MyMeeting from '@/components/MyMeeting.vue'
+import MeetingRoom from '@/components/MeetingRoom.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,6 +21,16 @@ const router = createRouter({
       path: '/createMeeting',
       name: 'CreateNewMeeting',
       component: CreeateNewMeeting,
+    },
+     {
+      path: '/meetings',
+      name: 'MyMeeting',
+      component: MyMeeting,
+    },
+     {
+      path: '/meetingsroom',
+      name: 'MyMeeting',
+      component: MeetingRoom,
     },
     {
       path: '/about',

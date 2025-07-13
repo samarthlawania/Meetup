@@ -91,10 +91,6 @@ const handleSubmit = () => {
     } else if (password.value.length < 6) {
         errors.value.password = 'Password must be at least 6 characters'
     }
-
-    if (Object.keys(errors.value).length === 0) {
-        alert('Form submitted successfully!')
-    }
 }
 
 const signupEmailPassword = async() => {
@@ -110,7 +106,6 @@ const signupEmailPassword = async() => {
       }
 }
 const signupWithGoogle = ()=> {
-  // Redirects the user to your backend's Google OAuth route
     window.location.href = `${import.meta.env.VITE_HOST_URL}/auth/google`;
 }
 </script>
