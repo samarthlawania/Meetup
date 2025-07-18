@@ -8,9 +8,14 @@ import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
 import cors from 'cors';
 import { v4 as uuidV4 } from 'uuid';
+import { Server } from 'socket.io';
+import registerSocketHandlers from './sockets/socketHandler.js';
+import { createServer } from 'http';
 await import('./config/passport.js');
 
 const app = express();
+const httpServer = createServer(app);
+
 
 
 
@@ -34,6 +39,18 @@ app.use(passport.session());
 
 app.use('/auth', authRoutes);
 
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST']
+  }
+});
+
+// Register signaling and chat logic
+io.on('connection', socket => {
+  registerSocketHandlers(io, socket);
+});
+
 app.get('/create-meeting', (req, res) => {
   console.log('Creating new meeting');
   const roomID = uuidV4();
@@ -41,4 +58,6 @@ app.get('/create-meeting', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
