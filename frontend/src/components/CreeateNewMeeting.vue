@@ -39,7 +39,7 @@
                         <div class="invalid-feedback">{{ errors.participants }}</div>
                     </div>
 
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-end" @click="ScheduleMeeting">
                         <button type="submit" class="btn btn-primary fw-bold px-4" style="letter-spacing: 0.015em;">
                             Schedule Meeting
                         </button>
@@ -51,7 +51,10 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import { ref } from 'vue'
+import api from '../services/apiService'
+
 
 const title = ref('')
 const description = ref('')
@@ -83,5 +86,12 @@ const handleSubmit = () => {
     if (Object.keys(errors.value).length === 0) {
         alert('Meeting scheduled successfully!')
     }
+}
+
+
+const ScheduleMeeting = async()=>{
+    const res = await api.get('/create-meeting');
+    const { roomID } = res.data;
+    router.push(`/meeting/${roomID}`);
 }
 </script>
