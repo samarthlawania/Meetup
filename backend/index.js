@@ -1,4 +1,3 @@
-// server.js
 import express from 'express';
 dotenv.config();
 import mongoose from 'mongoose';
@@ -15,8 +14,12 @@ await import('./config/passport.js');
 
 const app = express();
 const httpServer = createServer(app);
-
-
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST']
+  }
+});
 
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -24,27 +27,31 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 }).then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+
 app.use(cors({
-  origin: 'http://localhost:5173', // your frontend port
-  credentials: true,               // if using cookies or sessions
+  origin: process.env.FRONTEND_URL, 
+  credentials: true,               
 }));
+
+
 app.use(express.json());
 app.use(session({
-  secret: 'your-session-secret',
+  secret: process.env.JWT_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+   cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST']
-  }
-});
+
 
 // Register signaling and chat logic
 io.on('connection', socket => {

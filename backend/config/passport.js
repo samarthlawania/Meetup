@@ -7,7 +7,7 @@ console.log("SECRET:", process.env.GOOGLE_SECRET);
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || 'hardcoded-client-id',
   clientSecret: process.env.GOOGLE_SECRET || 'hardcoded-secret',
-  callbackURL: '/auth/google/callback'
+  callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
@@ -15,7 +15,8 @@ passport.use(new GoogleStrategy({
       user = await User.create({
         googleId: profile.id,
         name: profile.displayName,
-        email: profile.emails?.[0]?.value
+        email: profile.emails?.[0]?.value,
+        password:null
       });
     }
     return done(null, user);
